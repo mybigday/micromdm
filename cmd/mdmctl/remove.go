@@ -74,6 +74,6 @@ Valid resource types:
   * vpp-app
 `
 
-	fmt.Println(getUsage)
+	fmt.Print(getUsage)
 	return nil
 }

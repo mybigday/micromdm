@@ -80,7 +80,7 @@ mdmctl config print
 mdmctl config set -h
 mdmctl config switch -h
 `
-	fmt.Println(help)
+	fmt.Print(help)
 	return nil
 }
 
