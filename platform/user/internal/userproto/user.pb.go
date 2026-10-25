@@ -5,9 +5,11 @@
 Package userproto is a generated protocol buffer package.
 
 It is generated from these files:
+
 	user.proto
 
 It has these top-level messages:
+
 	User
 */
 package userproto

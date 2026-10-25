@@ -6,9 +6,11 @@
 Package depsyncproto is a generated protocol buffer package.
 
 It is generated from these files:
+
 	depsync.proto
 
 It has these top-level messages:
+
 	Event
 	Device
 */

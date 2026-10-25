@@ -6,9 +6,11 @@
 Package commandqueued is a generated protocol buffer package.
 
 It is generated from these files:
+
 	command_queued.proto
 
 It has these top-level messages:
+
 	CommandQueued
 */
 package commandqueued

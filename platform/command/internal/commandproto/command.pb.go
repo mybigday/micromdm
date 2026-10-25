@@ -2,13 +2,15 @@
 // source: command.proto
 
 /*
-	Package commandproto is a generated protocol buffer package.
+Package commandproto is a generated protocol buffer package.
 
-	It is generated from these files:
-		command.proto
+It is generated from these files:
 
-	It has these top-level messages:
-		Event
+	command.proto
+
+It has these top-level messages:
+
+	Event
 */
 package commandproto
 

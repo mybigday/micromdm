@@ -6,9 +6,11 @@
 Package pushproto is a generated protocol buffer package.
 
 It is generated from these files:
+
 	push.proto
 
 It has these top-level messages:
+
 	PushInfo
 */
 package pushproto

@@ -5,9 +5,11 @@
 Package devicecommandproto is a generated protocol buffer package.
 
 It is generated from these files:
+
 	device_command.proto
 
 It has these top-level messages:
+
 	Command
 	DeviceCommand
 */

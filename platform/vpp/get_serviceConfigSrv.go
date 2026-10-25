@@ -18,7 +18,7 @@ func (svc *VPPService) GetServiceConfigSrv(ctx context.Context, options vpp.Serv
 	return svc.client.GetServiceConfigSrv(options)
 }
 
-//type getVPPServiceConfigSrvRequest struct{}
+// type getVPPServiceConfigSrvRequest struct{}
 type getServiceConfigSrvResponse struct {
 	*vpp.ServiceConfigSrv
 	Err error `json:"err,omitempty"`
