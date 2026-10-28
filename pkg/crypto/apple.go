@@ -1,6 +1,10 @@
 package crypto
 
 import (
+	"crypto"
+	"crypto/rsa"
+	_ "crypto/sha1"
+	_ "crypto/sha256"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
@@ -91,19 +95,48 @@ pyQPbp8orlXe+tA8JA==
 -----END CERTIFICATE-----
 `
 
-// VerifyFromAppleDeviceCA verifies a certificate was signed by Apple's iPhone Device CA.
-// TODO: We want to have more intensive verification (like the whole provided chain).
-// TODO: Implement some sort of cache so we don't need to parse PEM & DER every invocation.
-func VerifyFromAppleDeviceCA(c *x509.Certificate) error {
-	block, _ := pem.Decode([]byte(appleiPhoneDeviceCAPEM))
+func mustParsePublicKey(cert string) *rsa.PublicKey {
+	block, _ := pem.Decode([]byte(cert))
 	if block == nil || block.Type != "CERTIFICATE" {
 		panic("appleiPhoneDeviceCAPEM: invalid PEM block")
 	}
-	parent, err := x509.ParseCertificate(block.Bytes)
+	c, err := x509.ParseCertificate(block.Bytes)
 	if err != nil {
-		panic(fmt.Sprintf("appleiPhoneDeviceCAPEM: err parsing: %s", err))
+		panic(fmt.Sprintf("appleiPhoneDeviceCAPEM: err parsing: %v", err))
 	}
-	// Note we CheckSignatureFrom() as we cannot Verify the certificate chain
-	// (known expired intermediate)
-	return c.CheckSignatureFrom(parent)
+
+	key, ok := c.PublicKey.(*rsa.PublicKey)
+	if !ok {
+		panic("appleiPhoneDeviceCAPEM: invalid key type")
+	}
+
+	return key
+}
+
+// extract public key from appleiPhoneDeviceCAPEM
+var appleiPhoneDeviceCAPublicKey = mustParsePublicKey(appleiPhoneDeviceCAPEM)
+
+// VerifyFromAppleDeviceCA verifies a certificate was signed by Apple's iPhone Device CA.
+// Manually verify the certificate since Go has deprecated verifying SHA1WithRSA x509 certificates.
+func VerifyFromAppleDeviceCA(c *x509.Certificate) error {
+	var hashType crypto.Hash
+
+	switch c.SignatureAlgorithm {
+	case x509.SHA1WithRSA:
+		hashType = crypto.SHA1
+	case x509.SHA256WithRSA:
+		hashType = crypto.SHA256
+	default:
+		return fmt.Errorf("%w: %s", x509.ErrUnsupportedAlgorithm, c.SignatureAlgorithm)
+	}
+
+	hasher := hashType.New()
+	hasher.Write(c.RawTBSCertificate)
+	hashed := hasher.Sum(nil)
+
+	if err := rsa.VerifyPKCS1v15(appleiPhoneDeviceCAPublicKey, hashType, hashed, c.Signature); err != nil {
+		return err
+	}
+
+	return nil
 }
