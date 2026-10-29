@@ -38,7 +38,7 @@ func (cmd *getCommand) getDEPProfiles(args []string) error {
 	}
 
 	if *flUUID == "" {
-		fmt.Println(noUUIDText)
+		fmt.Print(noUUIDText)
 		flagset.Usage()
 		os.Exit(1)
 	}

@@ -104,7 +104,7 @@ Examples:
   mdmctl apply dep-profiles -f /path/to/dep-profile.json
 
 `
-	fmt.Println(applyUsage)
+	fmt.Print(applyUsage)
 	return nil
 }
 

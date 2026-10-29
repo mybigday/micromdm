@@ -6,9 +6,11 @@
 Package deviceproto is a generated protocol buffer package.
 
 It is generated from these files:
+
 	device.proto
 
 It has these top-level messages:
+
 	Device
 */
 package deviceproto

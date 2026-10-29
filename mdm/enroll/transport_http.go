@@ -3,6 +3,7 @@ package enroll
 import (
 	"context"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -74,7 +75,7 @@ func decodeMDMEnrollRequest(_ context.Context, r *http.Request) (interface{}, er
 		}
 		err = crypto.VerifyFromAppleDeviceCA(signer)
 		if err != nil {
-			return nil, errors.New("unauthorized enrollment client: not signed by Apple Device CA")
+			return nil, fmt.Errorf("unauthorized enrollment client: not signed by Apple Device CA (signature_algorithm=%s): %w", signer.SignatureAlgorithm, err)
 		}
 		var request depEnrollmentRequest
 		if err := plist.Unmarshal(p7.Content, &request); err != nil {

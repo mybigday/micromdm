@@ -72,7 +72,7 @@ certificate. Then use the 'mdmctl mdmcert upload' command to upload it,
 (and the above private key) into MicroMDM.
 
 `
-	fmt.Println(usageText)
+	fmt.Print(usageText)
 	return nil
 
 }

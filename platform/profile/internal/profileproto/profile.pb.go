@@ -6,9 +6,11 @@
 Package profileproto is a generated protocol buffer package.
 
 It is generated from these files:
+
 	profile.proto
 
 It has these top-level messages:
+
 	Profile
 */
 package profileproto
